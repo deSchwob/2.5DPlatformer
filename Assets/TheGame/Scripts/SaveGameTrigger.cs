@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class SaveGameTrigger : MonoBehaviour
 {
+    public string ID = "";
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Jetzt speichern");
-        SaveGameData savegame = new SaveGameData();
-        savegame.save();
+        SaveGameData savegame = SaveGameData.current;
+
+        if (savegame.lastTriggerID != ID)
+        {
+            savegame.lastTriggerID = ID;
+            savegame.save();
+        }
+        else Debug.Log("Dieser Speicherpunkt hat bereits zuletzt gespeichert");
+        
     }
 
     private void OnDrawGizmos()
